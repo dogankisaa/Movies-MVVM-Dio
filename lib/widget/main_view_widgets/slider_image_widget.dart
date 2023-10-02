@@ -43,7 +43,7 @@ class SliderImageWidget extends StatelessWidget {
 
   DecorationImage sliderImage(MainViewModel viewModel) {
     return DecorationImage(
-            image: NetworkImage(viewModel.mainViewConsts.sliderImagePath +
+            image: NetworkImage(viewModel.baseConstants.sliderImagePath +
                 data.data!.results![i].backdropPath));
   }
 
@@ -92,7 +92,7 @@ class SliderImageWidget extends StatelessWidget {
                   padding: EdgeInsets.all(viewModel.mainViewConsts.sliderButtonIconPadding),
                   child: Icon(
                     Icons.play_arrow,
-                    color: viewModel.mainViewConsts.SliderButtonIconColor
+                    color: viewModel.mainViewConsts.sliderButtonIconColor
                   ),
                 ),
                 onPressed: () {},

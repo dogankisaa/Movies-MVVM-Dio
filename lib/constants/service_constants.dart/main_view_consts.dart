@@ -12,13 +12,31 @@ class MainViewConsts {
   double sliderButtonIconPadding = 10;
   double sliderPaddingHorizontal =10;
   double sliderPaddingVertical =5;
+  double appBarActionsRadius = 6;
+  double appBarActionsPaddingHorizontal = 5;
+  double appBarActionsPaddingVertical = 1;
+  double listViewPadding1 = 20;
+  double listViewPadding2 = 0;
+  double listViewHeight = 200;
+  double listViewItemHeight = 116;
+  double listViewItemRadius = 20;
+  
 
-  String sliderImagePath = "https://image.tmdb.org/t/p/w500";
+  String appBarLeadingLogoPath = "assets/appbar_logo.svg";
+  String appBarActionsText = "Recently Watched";
+  String welcomeText = "assets/welcome_text.svg";
+  String listViewTrendingText =  "Trending";
+  String listViewUpcomingText = "Upcoming";
+  String listViewSeeAllText = "See all >";
 
   Color sliderAgeTextColor = Colors.white;
   Color sliderImageAgeLimitBg = Color.fromRGBO(255, 255, 255, 0.1);
   Color sliderImageMovieNameBg = Color.fromRGBO(255, 255, 255, 0.1);
   Color sliderImagePlayButtonBg = Color.fromRGBO(255, 255, 255, 0.1);
   Color sliderNameColor = Colors.red;
-  Color SliderButtonIconColor = Colors.white;
+  Color sliderButtonIconColor = Colors.white;
+  Color appBarActionsBorderColor = Color.fromRGBO(197, 197, 197, 1);
+  Color appBarActionsTextColor = Colors.white;
+  Color listViewLeadingColor = Color.fromRGBO(219, 219, 219, 1);
+  Color listVievActionColor = Color.fromRGBO(255, 254, 254, 0.7);
 }
