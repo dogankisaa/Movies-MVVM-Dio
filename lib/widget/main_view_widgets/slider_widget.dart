@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/view/detail_view.dart';
 import 'package:movie_app/widget/main_view_widgets/slider_image_widget.dart';
 
 class SliderWidget extends StatelessWidget {
@@ -24,7 +25,14 @@ class SliderWidget extends StatelessWidget {
       ),
       items: <Widget>[
         for (var i = 0; i < data.data!.results!.length; i++)
-          SliderImageWidget(data: data, i: i),
+          InkWell(
+            onTap: () {
+                   Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  DetailView(data: data, index: i,)),
+              );
+            },
+            child: SliderImageWidget(data: data, i: i)),
       ],
     );
   }

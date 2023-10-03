@@ -4,11 +4,13 @@ class CustomScaffoldWidget extends StatelessWidget {
   final widget;
   final action;
   final leading;
+  final isViewBehindAppBar;
+  final isHorizontalPadding;
   const CustomScaffoldWidget({
     super.key,
-    this.widget,
+ required   this.widget,
     this.action,
-    this.leading,
+    this.leading, required this.isViewBehindAppBar, required this.isHorizontalPadding,
   });
 
   @override
@@ -20,31 +22,30 @@ class CustomScaffoldWidget extends StatelessWidget {
           end: Alignment(-1.0, 1),
           colors: <Color>[
             Color.fromRGBO(201, 4, 4, 1),
+            Color.fromRGBO(0, 0, 0, 1),
             Color.fromRGBO(67, 7, 7, 1),
             Color.fromRGBO(0, 0, 0, 1),
           ],
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(30),
-              child: AppBar(
-                
-                leadingWidth: 30,
-                leading: leading,
-                actions: [action],
-                
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-              ),
+        padding:  EdgeInsets.symmetric(horizontal: isHorizontalPadding ? 20 : 0),
+        child: Scaffold(
+          extendBodyBehindAppBar: isViewBehindAppBar? true : false,
+          backgroundColor: Colors.transparent,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(30),
+            child: AppBar(
+              
+              leadingWidth: 30,
+              leading: leading ?? SizedBox(),
+              actions: [action ?? SizedBox()],
+              
+              elevation: 0,
+              backgroundColor: Colors.transparent,
             ),
-            body: widget,
           ),
+          body: widget,
         ),
       ),
     );

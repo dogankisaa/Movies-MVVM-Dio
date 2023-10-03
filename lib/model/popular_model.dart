@@ -33,7 +33,7 @@ class Popular {
 class Results {
   bool? adult;
   String? backdropPath;
-  List? genreIds;
+  List<int>? genreIds;
   int? id;
   String? originalLanguage;
   String? originalTitle;
@@ -43,7 +43,7 @@ class Results {
   String? releaseDate;
   String? title;
   bool? video;
-
+  num? voteAverage;
   int? voteCount;
 
   Results(
@@ -59,13 +59,13 @@ class Results {
       this.releaseDate,
       this.title,
       this.video,
-      
+      this.voteAverage,
       this.voteCount});
 
   Results.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids'];
+    genreIds = json['genre_ids'].cast<int>();
     id = json['id'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
@@ -75,7 +75,7 @@ class Results {
     releaseDate = json['release_date'];
     title = json['title'];
     video = json['video'];
- 
+    voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
   }
 
@@ -93,7 +93,7 @@ class Results {
     data['release_date'] = this.releaseDate;
     data['title'] = this.title;
     data['video'] = this.video;
-
+    data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;
     return data;
   }
