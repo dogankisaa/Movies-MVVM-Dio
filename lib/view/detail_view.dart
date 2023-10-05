@@ -17,10 +17,11 @@ class DetailView extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: viewModel = DetailViewModel(),
       builder: (context, child) {
+        viewModel.textLength(data.data!.results![index].overview);
         return CustomScaffoldWidget(
           leading: IconButton(
             onPressed: () {},
-            iconSize: 30,
+            iconSize: viewModel.detailViewConsts.backIconSize,
             color: Colors.white,
             icon: Icon(Icons.keyboard_arrow_left),
           ),
@@ -28,32 +29,29 @@ class DetailView extends StatelessWidget {
           isViewBehindAppBar: true,
           widget: Column(
             children: [
-              Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(60),
-                          bottomRight: Radius.circular(60)),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              viewModel.baseConstants.sliderImagePath +
-                                  data.data!.results![index].posterPath))),
-                  height: 400,
-                  width: double.infinity,
-                  child: Text("")),
+              bannerWidget(viewModel, context),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 data.data!.results![index].title,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: const Color.fromRGBO(255, 0, 0, 0.9)),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: viewModel.detailViewConsts.titleColor,
+                    ),
+                maxLines: 1,
+              ),
+              SizedBox(
+                height: 10,
               ),
               Text(
                 viewModel.dateFormat(data.data!.results![index].releaseDate),
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(color: const Color.fromRGBO(219, 219, 219, 1)),
+                    .copyWith(color: viewModel.detailViewConsts.dateColor),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,11 +60,13 @@ class DetailView extends StatelessWidget {
                   RatingBarIndicator(
                     direction: Axis.horizontal,
                     rating: data.data!.results![index].voteAverage / 2,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemCount: viewModel.detailViewConsts.starCount,
+                    itemPadding: EdgeInsets.symmetric(
+                        horizontal:
+                            viewModel.detailViewConsts.starHorizontalPadding),
                     itemBuilder: (context, _) => Icon(
                       Icons.star_border_purple500,
-                      color: Color.fromRGBO(239, 80, 80, 1),
+                      color: viewModel.detailViewConsts.starFillColor,
                     ),
                   ),
                   Text(
@@ -74,18 +74,145 @@ class DetailView extends StatelessWidget {
                             .calculatedVoteAverage(
                                 data.data!.results![index].voteAverage)
                             .toString() +
-                        " / 5",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(color: Color.fromRGBO(197, 197, 197, 1),fontSize: 25),
+                        viewModel.detailViewConsts.maxRateText,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: viewModel.detailViewConsts.maxRateTextColor,
+                        fontSize: viewModel.detailViewConsts.maxRateTextSize),
                   )
                 ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Color.fromRGBO(197, 197, 197, 0.8),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        infoBoxWidget(
+                            context,
+                            viewModel.releaseYear(
+                                data.data!.results![index].releaseDate)),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        infoBoxWidget(context, "2h 13m"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        infoBoxWidget(context, "+12"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Color.fromRGBO(197, 197, 197, 0.8),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Consumer<DetailViewModel>(
+                      builder: (context, value, child) {
+                        return viewModel.isMore
+                            ? Row(
+                                children: [
+                                  Text(
+                                    data.data!.results![index].overview
+                                            .substring(0, 50) +
+                                        "...",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium!
+                                        .copyWith(
+                                            color: Colors.white, height: 2),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      viewModel.changeTextLength();
+                                    },
+                                    child: Text(
+                                      " Read More",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: Color.fromRGBO(
+                                                  239, 80, 80, 1),
+                                              height: 2),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                  data.data!.results![index].overview,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(color: Colors.white, height: 2),
+                                ),
+                            );
+                      },
+                    )
+                  ],
+                ),
               )
             ],
           ),
         );
       },
+    );
+  }
+
+  Container infoBoxWidget(BuildContext context, String text) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: Color.fromRGBO(197, 197, 197, 0.8),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: Color.fromRGBO(219, 219, 219, 1)),
+        ),
+      ),
+    );
+  }
+
+  Container bannerWidget(DetailViewModel viewModel, BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(
+                  viewModel.detailViewConsts.bannerBottomLeftRadius),
+              bottomRight: Radius.circular(
+                  viewModel.detailViewConsts.bannerBottomRightRadius)),
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(viewModel.baseConstants.sliderImagePath +
+                  data.data!.results![index].posterPath))),
+      height: viewModel.detailViewConsts.bannerHeight(context),
+      width: double.infinity,
     );
   }
 }

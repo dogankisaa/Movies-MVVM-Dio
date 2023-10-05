@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/view/detail_view.dart';
 import 'package:movie_app/view_model/main_view_model.dart';
 
 class CustomListViewWidget extends StatelessWidget {
@@ -20,16 +21,28 @@ class CustomListViewWidget extends StatelessWidget {
                   left: index != viewModel.mainViewConsts.listViewPadding2
                       ? viewModel.mainViewConsts.listViewPadding1
                       : viewModel.mainViewConsts.listViewPadding2),
-              child: Container(
-                width: viewModel.mainViewConsts.listViewItemHeight,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          viewModel.baseConstants.sliderImagePath +
-                              data.data!.results![index].posterPath)),
-                  borderRadius: BorderRadius.circular(
-                      viewModel.mainViewConsts.listViewItemRadius),
+              child: InkWell(
+                onTap: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailView(
+                                data: data,
+                                index: index,
+                              )),
+                    );
+                },
+                child: Container(
+                  width: viewModel.mainViewConsts.listViewItemHeight,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            viewModel.baseConstants.sliderImagePath +
+                                data.data!.results![index].posterPath)),
+                    borderRadius: BorderRadius.circular(
+                        viewModel.mainViewConsts.listViewItemRadius),
+                  ),
                 ),
               ),
             );

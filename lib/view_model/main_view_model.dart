@@ -1,5 +1,5 @@
 import 'package:movie_app/constants/service_constants.dart/base_constants.dart';
-import 'package:movie_app/constants/service_constants.dart/main_view_consts.dart';
+import 'package:movie_app/constants/main_view_consts.dart';
 import 'package:movie_app/model/popular_model.dart';
 import 'package:movie_app/model/trending_model.dart';
 import 'package:movie_app/model/upcoming_model.dart';
