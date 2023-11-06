@@ -11,7 +11,7 @@ class Popular {
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(Results.fromJson(v));
       });
     }
     totalPages = json['total_pages'];
@@ -19,7 +19,7 @@ class Popular {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['page'] = this.page;
     if (this.results != null) {
       data['results'] = this.results!.map((v) => v.toJson()).toList();

@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movie_app/model/popular_model.dart';
 import 'package:movie_app/service/get/get_trending.dart';
-import 'package:movie_app/view/detail_view.dart';
 
 import 'package:movie_app/view_model/main_view_model.dart';
 import 'package:movie_app/widget/base_widgets/custom_scaffold.dart';

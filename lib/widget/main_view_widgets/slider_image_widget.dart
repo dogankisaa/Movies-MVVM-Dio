@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/view_model/main_view_model.dart';
 
 class SliderImageWidget extends StatelessWidget {
-  SliderImageWidget({
+  const SliderImageWidget({
     super.key,
     required this.data,
     required this.i,

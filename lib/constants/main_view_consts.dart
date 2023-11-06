@@ -30,13 +30,13 @@ class MainViewConsts {
   String listViewSeeAllText = "See all >";
 
   Color sliderAgeTextColor = Colors.white;
-  Color sliderImageAgeLimitBg = Color.fromRGBO(255, 255, 255, 0.1);
-  Color sliderImageMovieNameBg = Color.fromRGBO(255, 255, 255, 0.1);
-  Color sliderImagePlayButtonBg = Color.fromRGBO(255, 255, 255, 0.1);
+  Color sliderImageAgeLimitBg = const Color.fromRGBO(255, 255, 255, 0.1);
+  Color sliderImageMovieNameBg = const Color.fromRGBO(255, 255, 255, 0.1);
+  Color sliderImagePlayButtonBg = const Color.fromRGBO(255, 255, 255, 0.1);
   Color sliderNameColor = Colors.red;
   Color sliderButtonIconColor = Colors.white;
-  Color appBarActionsBorderColor = Color.fromRGBO(197, 197, 197, 1);
+  Color appBarActionsBorderColor = const Color.fromRGBO(197, 197, 197, 1);
   Color appBarActionsTextColor = Colors.white;
-  Color listViewLeadingColor = Color.fromRGBO(219, 219, 219, 1);
-  Color listVievActionColor = Color.fromRGBO(255, 254, 254, 0.7);
+  Color listViewLeadingColor = const Color.fromRGBO(219, 219, 219, 1);
+  Color listVievActionColor = const Color.fromRGBO(255, 254, 254, 0.7);
 }

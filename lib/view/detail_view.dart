@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/view_model/detail_view_model.dart';
 import 'package:movie_app/widget/base_widgets/custom_scaffold.dart';
 import 'package:provider/provider.dart';
@@ -23,154 +22,21 @@ class DetailView extends StatelessWidget {
             onPressed: () {},
             iconSize: viewModel.detailViewConsts.backIconSize,
             color: Colors.white,
-            icon: Icon(Icons.keyboard_arrow_left),
+            icon: const Icon(Icons.keyboard_arrow_left),
           ),
           isHorizontalPadding: false,
           isViewBehindAppBar: true,
           widget: Column(
             children: [
               bannerWidget(viewModel, context),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
-                data.data!.results![index].title,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: viewModel.detailViewConsts.titleColor,
-                    ),
-                maxLines: 1,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                viewModel.dateFormat(data.data!.results![index].releaseDate),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: viewModel.detailViewConsts.dateColor),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RatingBarIndicator(
-                    direction: Axis.horizontal,
-                    rating: data.data!.results![index].voteAverage / 2,
-                    itemCount: viewModel.detailViewConsts.starCount,
-                    itemPadding: EdgeInsets.symmetric(
-                        horizontal:
-                            viewModel.detailViewConsts.starHorizontalPadding),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star_border_purple500,
-                      color: viewModel.detailViewConsts.starFillColor,
-                    ),
-                  ),
-                  Text(
-                    viewModel
-                            .calculatedVoteAverage(
-                                data.data!.results![index].voteAverage)
-                            .toString() +
-                        viewModel.detailViewConsts.maxRateText,
-                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                        color: viewModel.detailViewConsts.maxRateTextColor,
-                        fontSize: viewModel.detailViewConsts.maxRateTextSize),
-                  )
-                ],
-              ),
-              SizedBox(
+              nameRateAndRelease(context, viewModel),
+              const SizedBox(
                 height: 25,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromRGBO(197, 197, 197, 0.8),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        infoBoxWidget(
-                            context,
-                            viewModel.releaseYear(
-                                data.data!.results![index].releaseDate)),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        infoBoxWidget(context, "2h 13m"),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        infoBoxWidget(context, "+12"),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromRGBO(197, 197, 197, 0.8),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Consumer<DetailViewModel>(
-                      builder: (context, value, child) {
-                        return viewModel.isMore
-                            ? Row(
-                                children: [
-                                  Text(
-                                    data.data!.results![index].overview
-                                            .substring(0, 50) +
-                                        "...",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium!
-                                        .copyWith(
-                                            color: Colors.white, height: 2),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      viewModel.changeTextLength();
-                                    },
-                                    child: Text(
-                                      " Read More",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium!
-                                          .copyWith(
-                                              color: Color.fromRGBO(
-                                                  239, 80, 80, 1),
-                                              height: 2),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                  data.data!.results![index].overview,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium!
-                                      .copyWith(color: Colors.white, height: 2),
-                                ),
-                            );
-                      },
-                    )
-                  ],
-                ),
-              )
+              detailAndDivider(viewModel, context)
             ],
           ),
         );
@@ -178,22 +44,191 @@ class DetailView extends StatelessWidget {
     );
   }
 
-  Container infoBoxWidget(BuildContext context, String text) {
+  Padding detailAndDivider(DetailViewModel viewModel, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: viewModel.detailViewConsts.dividerPadding),
+      child: Column(
+        children: [
+          //Divider about movie.
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Divider(
+                  color: viewModel.detailViewConsts.dividerColor,
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              infoBoxWidget(
+                  context,
+                  viewModel.releaseYear(data.data!.results![index].releaseDate),
+                  viewModel),
+              const SizedBox(
+                width: 5,
+              ),
+              infoBoxWidget(context, "2h 13m", viewModel),
+              const SizedBox(
+                width: 5,
+              ),
+              infoBoxWidget(context, "+12", viewModel),
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Divider(
+                  color: viewModel.detailViewConsts.dividerColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+
+          //Movie detail widget.
+
+          Consumer<DetailViewModel>(
+            builder: (context, value, child) {
+              return viewModel.isMore
+                  ? Row(
+                      children: [
+                        Text(
+                          data.data!.results![index].overview.substring(0, 50) +
+                              viewModel.detailViewConsts.moreText,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(
+                                  color: viewModel
+                                      .detailViewConsts.detailTextColor,
+                                  height:
+                                      viewModel.detailViewConsts.textHeight),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            viewModel.changeTextLength();
+                          },
+                          child: Text(
+                            viewModel.detailViewConsts.readMoreText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .copyWith(
+                                    color: viewModel
+                                        .detailViewConsts.readMoreColor,
+                                    height:
+                                        viewModel.detailViewConsts.textHeight),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        data.data!.results![index].overview,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                color: Colors.white,
+                                height: viewModel.detailViewConsts.textHeight),
+                      ),
+                    );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Column nameRateAndRelease(BuildContext context, DetailViewModel viewModel) {
+    return Column(
+      children: [
+        //Movie name.
+
+        Text(
+          data.data!.results![index].title,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: viewModel.detailViewConsts.titleColor,
+              ),
+          maxLines: 1,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+
+        //Movie release date.
+
+        Text(
+          viewModel.dateFormat(data.data!.results![index].releaseDate),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: viewModel.detailViewConsts.dateColor),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+
+        //Vote average.
+
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RatingBarIndicator(
+              direction: Axis.horizontal,
+              rating: data.data!.results![index].voteAverage / 2,
+              itemCount: viewModel.detailViewConsts.starCount,
+              itemPadding: EdgeInsets.symmetric(
+                  horizontal: viewModel.detailViewConsts.starHorizontalPadding),
+              itemBuilder: (context, _) => Icon(
+                Icons.star_border_purple500,
+                color: viewModel.detailViewConsts.starFillColor,
+              ),
+            ),
+            Text(
+              viewModel
+                      .calculatedVoteAverage(
+                          data.data!.results![index].voteAverage)
+                      .toString() +
+                  viewModel.detailViewConsts.maxRateText,
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: viewModel.detailViewConsts.maxRateTextColor,
+                  fontSize: viewModel.detailViewConsts.maxRateTextSize),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Container infoBoxWidget(
+      BuildContext context, String text, DetailViewModel viewModel) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius:
+            BorderRadius.circular(viewModel.detailViewConsts.infoBoxRadius),
         border: Border.all(
-          color: Color.fromRGBO(197, 197, 197, 0.8),
+          color: viewModel.detailViewConsts.infoBoxBorderColor,
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: EdgeInsets.symmetric(
+            horizontal:
+                viewModel.detailViewConsts.infoBoxInfoTextPaddingHorizontal,
+            vertical:
+                viewModel.detailViewConsts.infoBoxInfoTextPaddingVertical),
         child: Text(
           text,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(color: Color.fromRGBO(219, 219, 219, 1)),
+              .copyWith(color: viewModel.detailViewConsts.infoBoxInfoTextColor),
         ),
       ),
     );

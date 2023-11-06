@@ -1,9 +1,7 @@
 
 import 'package:dio/dio.dart';
-import 'package:movie_app/constants/service_constants.dart/get_constants/get_popular_consts.dart';
 import 'package:movie_app/constants/service_constants.dart/get_constants/get_trending_consts.dart';
 
-import 'package:movie_app/model/popular_model.dart';
 import 'package:movie_app/model/trending_model.dart';
 
 import 'package:movie_app/service/base_service.dart';

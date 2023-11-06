@@ -8,9 +8,11 @@ class CustomScaffoldWidget extends StatelessWidget {
   final isHorizontalPadding;
   const CustomScaffoldWidget({
     super.key,
- required   this.widget,
+    required this.widget,
     this.action,
-    this.leading, required this.isViewBehindAppBar, required this.isHorizontalPadding,
+    this.leading,
+    required this.isViewBehindAppBar,
+    required this.isHorizontalPadding,
   });
 
   @override
@@ -29,18 +31,16 @@ class CustomScaffoldWidget extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: isHorizontalPadding ? 20 : 0),
+        padding: EdgeInsets.symmetric(horizontal: isHorizontalPadding ? 20 : 0),
         child: Scaffold(
-          extendBodyBehindAppBar: isViewBehindAppBar? true : false,
+          extendBodyBehindAppBar: isViewBehindAppBar ? true : false,
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(30),
+            preferredSize: const Size.fromHeight(30),
             child: AppBar(
-              
               leadingWidth: 30,
-              leading: leading ?? SizedBox(),
-              actions: [action ?? SizedBox()],
-              
+              leading: leading ?? const SizedBox(),
+              actions: [action ?? const SizedBox()],
               elevation: 0,
               backgroundColor: Colors.transparent,
             ),
